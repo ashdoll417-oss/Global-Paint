@@ -18,13 +18,12 @@ def create_app():
     
     return app
 
+app = create_app()
+
 def init_db():
-    from app import db, create_app
-    app = create_app()
     with app.app_context():
         db.create_all()
 
 if __name__ == '__main__':
-    app = create_app()
     init_db()
     app.run(debug=True)
