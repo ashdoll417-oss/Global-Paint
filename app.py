@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
+from admin_site.app.routes import main_bp
 
 db = SQLAlchemy()
 
@@ -12,9 +13,11 @@ def create_app():
     
     db.init_app(app)
     
+    app.register_blueprint(main_bp, url_prefix='/admin')
+    
     @app.route('/')
-    def health_check():
-        return {'status': 'healthy', 'message': 'Flask app is running!'}, 200
+    def index():
+        return redirect(url_for('main.inventory_list'))
     
     return app
 

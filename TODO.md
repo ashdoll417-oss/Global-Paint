@@ -1,10 +1,8 @@
-# Global Paint TODO
+# Flask App Update TODO
 
-## Admin Add Product
-- [x] Plan approved
-- [ ] 1. Add SKU field to InventoryItem model in shared/models.py
-- [ ] 2. Create InventoryForm in admin_site/app/forms.py including SKU field
-- [ ] 3. Update admin_site/app/routes.py to handle SKU in create/edit
-- [ ] 4. Run DB migration
-- [ ] 5. Test product creation
-- [ ] Create Product (high-level)
+## Plan Steps:
+- [ ] 1. Create admin_site/templates/base.html with Bootstrap 5 navbar (Add Product, View Inventory, Stock Movements)
+- [ ] 2. Edit app.py: Import Blueprint, register main_bp with url_prefix='/admin', update / to redirect to /admin/inventory
+- [ ] 3. Verify/create admin_site/templates/inventory/list.html
+- [ ] 4. Test locally with browser_action
+- [ ] 5. Git commit/push for Render deploy

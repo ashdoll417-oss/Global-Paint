@@ -32,19 +32,9 @@ def inventory_list():
 def inventory_create():
     form = InventoryForm()
     if form.validate_on_submit():
-        return render_template('inventory/form.html', form=form, title='New Inventory Item')
+    
             name=form.name.data,
             sku=form.sku.data,
-            description=form.description.data,
-            type=form.type.data,
-            unit_amount=form.unit_amount.data,
-            owner_id=current_user.id
-        )
-        db.session.add(item)
-        db.session.commit()
-        flash('Product created successfully!')
-        return redirect(url_for('main.inventory_list'))
-
 @main_bp.route('/inventory/<int:item_id>/edit', methods=['GET', 'POST'])
 @login_required
 def inventory_edit(item_id):
