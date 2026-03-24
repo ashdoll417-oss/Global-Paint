@@ -35,6 +35,7 @@ class InventoryItem(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
+    sku = Column(String(50), unique=True, index=True)
     description = Column(String)
     type = Column(SQLEnum(ItemType))
     unit_amount = Column(Float, default=0.0)

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Staff Access{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>Staff Access Required</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.access_code.label(class="form-label") }}
+                        {{ form.access_code(class="form-control", placeholder="Enter staff code") }}
+                    </div>
+                    {{ form.submit(class="btn btn-primary w-100") }}
+                </form>
+                <div class="text-center mt-3">
+                    <small>Simple access for recording sales/usage only</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Staff Inventory Dashboard</h2>
+<p>Record sales/usage below. View current stock from staff_inventory_view.</p>
+
+<!-- Sale Form -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Record Sale/Usage (Deduction)</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    {{ form.item_name.label(class="form-label") }}
+                    {{ form.item_name(class="form-control", placeholder="e.g., White Paint 4L") }}
+                </div>
+                <div class="col-md-3 mb-3">
+                    {{ form.quantity.label(class="form-label") }}
+                    {{ form.quantity(class="form-control", step="0.01", placeholder="0.00") }}
+                </div>
+                <div class="col-md-5 mb-3">
+                    {{ form.reason.label(class="form-label") }}
+                    {{ form.reason(class="form-control", placeholder="Sale to customer X, Usage for job Y") }}
+                </div>
+            </div>
+            {{ form.submit(class="btn btn-success") }}
+        </form>
+    </div>
+</div>
+
+<!-- Inventory Table -->
+{% if inventory %}
+<div class="card">
+    <div class="card-header">
+        <h5>Current Stock (staff_inventory_view)</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventory %}
+                    <tr>
+                        <td>{{ item.id or '-' }}</td>
+                        <td>{{ item.name or '-' }}</td>
+                        <td>{{ item.type or '-' }}</td>
+                        <td>{{ "%.2f"|format(item.unit_amount|default(0)) }}</td>
+                        <td><span class="badge bg-{{ 'danger' if item.status == 'out_of_stock' else 'success' }}">{{ item.status or '-' }}</span></td>
+                        <td>{{ item.description[:50] ~ '...' if item.description else '-' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info">No inventory data available from staff_inventory_view.</div>
+{% endif %}
+{% endblock %}

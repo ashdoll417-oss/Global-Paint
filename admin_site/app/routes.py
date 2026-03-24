@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user
 from ..shared.models import User, InventoryItem, GlobalSetting, StockMovement, PurchaseOrder, ItemType
 from . import db
-from .forms import InventoryForm, StockMovementForm, PurchaseOrderForm, TintForm
+from .forms import InventoryForm, StockMovementForm, PurchaseOrderForm, TintForm, StockInForm, TintingForm
 
 main_bp = Blueprint('main', __name__)
 
@@ -16,6 +16,7 @@ def dashboard():
     recent_pos = PurchaseOrder.query.order_by(PurchaseOrder.created_at.desc()).limit(5).all()
     users = User.query.all()
     settings = GlobalSetting.query.all()
+    total_items = paint_items + carpet_items
     return render_template('main/dashboard.html', 
                          total_items=total_items, paint_items=paint_items, carpet_items=carpet_items,
                          recent_movements=recent_movements, recent_pos=recent_pos,
@@ -31,8 +32,9 @@ def inventory_list():
 def inventory_create():
     form = InventoryForm()
     if form.validate_on_submit():
-        item = InventoryItem(
+        return render_template('inventory/form.html', form=form, title='New Inventory Item')
             name=form.name.data,
+            sku=form.sku.data,
             description=form.description.data,
             type=form.type.data,
             unit_amount=form.unit_amount.data,
@@ -40,9 +42,8 @@ def inventory_create():
         )
         db.session.add(item)
         db.session.commit()
-        flash('Inventory item created successfully!')
+        flash('Product created successfully!')
         return redirect(url_for('main.inventory_list'))
-    return render_template('inventory/form.html', form=form, title='New Inventory Item')
 
 @main_bp.route('/inventory/<int:item_id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -149,9 +150,9 @@ def purchase_orders_list():
 @main_bp.route('/purchase-orders/new', methods=['GET', 'POST'])
 @login_required
 def po_create():
-    form = PurchaseOrderForm()
+    
     if form.validate_on_submit():
-        return render_template('purchase_orders/form.html', form=form)
+    @main_bp.route('/users')
             po_number=form.po_number.data,
             client_name=form.client_name.data,
             quantity_ordered=form.quantity_ordered.data,
@@ -161,8 +162,6 @@ def po_create():
         db.session.commit()
         flash('Purchase order created!')
         return redirect(url_for('main.purchase_orders_list'))
-
-@main_bp.route('/users')
 @login_required
 def users_list():
     users = User.query.all()

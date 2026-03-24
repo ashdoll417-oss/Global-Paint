@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Add New Inventory Item</h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <strong>SKU Format:</strong> Use <code>PNT-</code> prefix for Paint items, <code>CRP-</code> for Carpet items, followed by your number (e.g., PNT-001, CRP-123).
+                </div>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Paint">Paint</option>
+                            <option value="Carpet">Carpet</option>
+                            <option value="Tint">Tint</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3" id="paint-subcategory-group" style="display: none;">
+                        <label for="paint_subcategory" class="form-label">Paint Sub-Category</label>
+                        <select class="form-select" id="paint_subcategory" name="paint_subcategory">
+                            <option value="">Select Sub-Category</option>
+                            <option value="Exterior">Exterior</option>
+                            <option value="Interior">Interior</option>
+                            <option value="Matt Black">Matt Black</option>
+                            <option value="Antistatic Paint">Antistatic Paint</option>
+                            <option value="Grit Wing Walk">Grit Wing Walk</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="sku" class="form-label">SKU</label>
+                        <input type="number" class="form-control" id="sku" name="sku" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="unit" class="form-label">Unit</label>
+                        <select class="form-select" id="unit" name="unit" required>
+                            <option value="">Select Unit</option>
+                            <option value="kg">kg</option>
+                            <option value="L">L</option>
+                            <option value="yards">yards</option>
+                            <option value="millimeters">millimeters</option>
+                            <option value="meters">meters</option>
+                            <option value="inches">inches</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3" id="carpet-colour-group" style="display: none;">
+                        <label for="colour" class="form-label">Carpet Colour</label>
+                        <input type="text" class="form-control" id="colour" name="colour">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="batch_number" class="form-label">Batch Number</label>
+                        <input type="text" class="form-control" id="batch_number" name="batch_number">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="expiry_date" class="form-label">Expiry Date</label>
+                        <input type="date" class="form-control" id="expiry_date" name="expiry_date">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="initial_quantity" class="form-label">Initial Quantity</label>
+                        <input type="number" step="0.001" class="form-control" id="initial_quantity" name="initial_quantity" required>
+                        <div class="form-text">Enter up to 3 decimal places (e.g., 1.255)</div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Save Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('category').addEventListener('change', function() {
+    const category = this.value;
+    const paintGroup = document.getElementById('paint-subcategory-group');
+    const colourGroup = document.getElementById('carpet-colour-group');
+    
+    // Hide both groups first
+    paintGroup.style.display = 'none';
+    colourGroup.style.display = 'none';
+    
+    if (category === 'Paint') {
+        paintGroup.style.display = 'block';
+    } else if (category === 'Carpet') {
+        colourGroup.style.display = 'block';
+    }
+});
+</script>
+{% endblock %}

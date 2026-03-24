@@ -1,12 +1,27 @@
-# Staff Site Routes Updates
+# Staff Site TODO
 
-## Plan Steps:
-- [ ] 1. Create TODO-staff.md
-- [ ] 2. Edit staff_site/app/routes.py:
-  - [ ] Add forms imports
-  - [ ] Fix dashboard total_items
-  - [ ] Fix po_create indent/bugs
-  - [ ] Add stock-in route after movements_list
-  - [ ] Add tinting route after stock-in
-- [ ] 3. Test changes
-- [ ] 4. Update main TODO.md
+## Plan Implementation Steps
+
+### 1. Requirements & Setup [x]
+- [x] Update staff_site/requirements.txt (already complete)
+- [ ] Ensure .env has STAFF_ACCESS_CODE
+
+### 2. Core Files [x]
+- [x] Rewrite staff_site/app/routes.py (access check, dashboard view query, sale form insert)
+- [ ] Update staff_site/app/__init__.py (minor)
+
+### 3. Templates [x]
+- [x] Create staff_site/templates/base.html
+- [x] Create staff_site/templates/access.html 
+- [x] Create staff_site/templates/dashboard.html
+
+### 4. Testing [ ]
+- [ ] Run `cd staff_site && flask --app app run`
+- [ ] Test access code → dashboard → record sale → verify DB insert
+- [ ] Check staff_inventory_view displays correctly
+
+### 5. Completion [ ]
+- [ ] All checks pass
+- [ ] Update this TODO with [x]
+
+Current progress: Starting step 1.
